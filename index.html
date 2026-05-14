@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maid Insurance Comparison — Infinity Financial Advisory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a4fa0;--blue-light:#e8f0fc;--blue-mid:#3b6fd4;
+  --fwd:#E25822;--fwd-bg:#fff5f0;--fwd-border:#f5c4b3;
+  --inc:#004E9A;--inc-bg:#e8f0fc;--inc-border:#b5d4f4;
+  --msig:#00704A;--msig-bg:#e6f5ee;--msig-border:#9fe1cb;
+  --text:#1a1a2e;--text2:#555570;--text3:#9090a8;
+  --bg:#f7f8fc;--surface:#ffffff;--border:#e2e4ef;--border2:#c8cbdf;
+  --radius:10px;--radius-sm:6px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6}
+
+/* Header */
+.header{background:var(--blue);color:#fff;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(26,79,160,.25)}
+.header-logo{display:flex;align-items:center;gap:12px}
+.logo-circle{width:38px;height:38px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:16px;color:#fff;border:1.5px solid rgba(255,255,255,.3)}
+.header-title{font-size:15px;font-weight:600;letter-spacing:.01em}
+.header-sub{font-size:11px;opacity:.7;margin-top:1px}
+.header-date{font-size:11px;opacity:.6;text-align:right}
+
+/* Container */
+.container{max-width:900px;margin:0 auto;padding:20px 16px 40px}
+
+/* Age toggle */
+.age-toggle{display:flex;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;width:fit-content}
+.age-btn{padding:9px 22px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer;transition:all .18s;white-space:nowrap}
+.age-btn.active{background:var(--blue);color:#fff}
+
+/* Info bar */
+.info-bar{display:flex;align-items:center;gap:8px;background:var(--blue-light);border:1px solid var(--inc-border);border-radius:var(--radius-sm);padding:8px 14px;margin-bottom:16px;font-size:12.5px;color:var(--blue)}
+
+/* Tier tabs */
+.tier-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.tier-btn{padding:7px 18px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text2);cursor:pointer;transition:all .18s}
+.tier-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
+.tier-btn:hover:not(.active){border-color:var(--blue);color:var(--blue)}
+
+/* Promo grid */
+.promo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+@media(max-width:600px){.promo-grid{grid-template-columns:1fr}}
+.promo-card{border-radius:var(--radius-sm);padding:11px 14px;border:1.5px solid}
+.promo-fwd{background:var(--fwd-bg);border-color:var(--fwd-border)}
+.promo-inc{background:var(--inc-bg);border-color:var(--inc-border)}
+.promo-msig{background:var(--msig-bg);border-color:var(--msig-border)}
+.promo-insurer{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;opacity:.65;margin-bottom:3px}
+.promo-fwd .promo-insurer{color:var(--fwd)}
+.promo-inc .promo-insurer{color:var(--inc)}
+.promo-msig .promo-insurer{color:var(--msig)}
+.promo-desc{font-size:12.5px;font-weight:500;margin-bottom:4px}
+.promo-fwd .promo-desc{color:#7a2a10}
+.promo-inc .promo-desc{color:#0a2a5c}
+.promo-msig .promo-desc{color:#0a3d28}
+.promo-expiry{font-size:11.5px;display:flex;align-items:center;gap:4px}
+.promo-fwd .promo-expiry{color:#a04010}
+.promo-inc .promo-expiry{color:#1a3d7c}
+.promo-msig .promo-expiry{color:#0a4a2a}
+.expiry-urgent{color:#c0392b !important;font-weight:600}
+
+/* Table */
+.table-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;overflow-x:auto;margin-bottom:18px}
+table{width:100%;border-collapse:collapse;min-width:560px}
+thead th{padding:11px 12px;font-size:12px;font-weight:600;text-align:left;background:var(--bg);border-bottom:2px solid var(--border)}
+thead th:first-child{width:34%;color:var(--text2)}
+thead th:not(:first-child){text-align:right;width:22%}
+.th-fwd{color:var(--fwd)}
+.th-inc{color:var(--inc)}
+.th-msig{color:var(--msig)}
+.plan-sub{font-size:10.5px;font-weight:400;opacity:.7;display:block;margin-top:2px}
+tbody td{padding:8px 12px;font-size:12.5px;border-bottom:1px solid var(--border);vertical-align:top}
+tbody td:first-child{color:var(--text2);font-size:12px}
+tbody td:not(:first-child){text-align:right;color:var(--text)}
+.nil{color:var(--text3) !important}
+tr.bold-row td{background:#fafbff;font-weight:500}
+.section-divider td{padding:8px 12px 3px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);background:var(--bg);border-top:1.5px solid var(--border)}
+.price-row td{padding:13px 12px;font-size:15px;font-weight:600;background:var(--blue);color:#fff;border-bottom:none}
+.price-row td:first-child{font-size:11.5px;font-weight:500;opacity:.8}
+
+/* Remarks */
+.remarks-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;overflow-x:auto;margin-bottom:18px}
+.remarks-wrap table{min-width:560px}
+.remarks-wrap thead th{font-size:11px}
+.remarks-wrap tbody td{font-size:11.5px;padding:9px 12px}
+.remarks-section-head{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);padding:8px 12px 2px;background:var(--bg);border-top:1.5px solid var(--border);display:block}
+
+/* Summary */
+.sum-premium-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+@media(max-width:600px){.sum-premium-grid{grid-template-columns:1fr}}
+.sum-tier-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.sum-tier-head{background:var(--text);color:#fff;padding:8px 14px;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.sum-tier-row{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border);font-size:12.5px}
+.sum-tier-row:last-child{border-bottom:none}
+.sum-tier-row span:first-child{font-weight:600}
+.sum-insurer-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:600px){.sum-insurer-cards{grid-template-columns:1fr}}
+.sum-ins-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.sum-ins-head{padding:10px 14px;font-size:12px;font-weight:700;letter-spacing:.01em}
+.sum-ins-head.fwd{background:var(--fwd-bg);color:var(--fwd);border-bottom:2px solid var(--fwd-border)}
+.sum-ins-head.inc{background:var(--inc-bg);color:var(--inc);border-bottom:2px solid var(--inc-border)}
+.sum-ins-head.msig{background:var(--msig-bg);color:var(--msig);border-bottom:2px solid var(--msig-border)}
+.sum-ins-body{padding:10px 14px}
+.sum-ins-body li{font-size:11.5px;color:var(--text2);margin-bottom:5px;padding-left:12px;position:relative;list-style:none}
+.sum-ins-body li::before{content:'•';position:absolute;left:0;color:var(--text3)}
+
+/* Disclaimer */
+.disclaimer{font-size:11px;color:var(--text3);text-align:center;padding:0 0 8px;line-height:1.6}
+
+/* Dot icon */
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">
+    <div class="logo-circle">∞</div>
+    <div>
+      <div class="header-title">Maid Insurance Comparison</div>
+      <div class="header-sub">Infinity Financial Advisory · Bryan</div>
+    </div>
+  </div>
+  <div class="header-date">As at 14 May 2026<br>Errors &amp; Omissions Excepted</div>
+</div>
+
+<div class="container">
+  <div class="age-toggle">
+    <button class="age-btn active" onclick="setAge('below')">Helper aged 50 &amp; below</button>
+    <button class="age-btn" onclick="setAge('above')">Helper above 50 years old</button>
+  </div>
+  <div class="info-bar" id="info-bar">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span id="info-text">Premiums based on 26-month policy · Includes $5,000 security bond · GST included</span>
+  </div>
+  <div class="tier-tabs">
+    <button class="tier-btn active" onclick="setTier('basic')">Basic</button>
+    <button class="tier-btn" onclick="setTier('standard')">Standard</button>
+    <button class="tier-btn" onclick="setTier('premium')">Premium</button>
+    <button class="tier-btn" onclick="setTier('summary')">Summary &amp; Promotions</button>
+  </div>
+  <div id="main-area"></div>
+  <div class="disclaimer">This is a non-binding indicative comparison for reference purposes only. Premiums are subject to change. Please refer to the respective insurer's policy wording for full terms and conditions. Errors &amp; Omissions Excepted.</div>
+</div>
+
+<script>
+const D={
+  below:{
+    basic:{
+      plans:['Essential','FMI Basic','MaidPlus Standard'],
+      rows:[
+        {s:'Coverage',l:'Personal accident',v:['$60,000','$60,000','$60,000']},
+        {l:'Outpatient medical (accident)',v:['$1,000','$1,500\n+ TCM $100/accident','$1,000\n+ Accidental Dental $500\n+ TCM $100/accident\n+ Dengue Fever $100']},
+        {l:'Hospitalisation & surgery',v:['$60,000 p.a.\n90 days pre/post\nDay surgery incl.','$60,000 p.a.\n60 days pre/post\nDay surgery incl.','$60,000 p.a.\n90 days pre/post'],bold:true},
+        {l:'Copayment',v:['25% after 1st $15k','25% after 1st $15k','25% after 1st $15k']},
+        {s:'Benefits',l:'Alternative help benefit',v:['$20/day (max 30 days)','—','$50/day (max 30 days)']},
+        {l:'Wages & levy reimbursement',v:['$30/day (max 30 days)','$20/day (max 30 days)','$30/day (max 30 days)']},
+        {l:'Termination expense',v:['$250','$150','$300']},
+        {l:'Replacement maid (medically unfit)',v:['$300','—','$500']},
+        {l:'Repatriation expense',v:['$10,000','$10,000','$10,000']},
+        {l:"Maid's liability",v:['$3,000','$25,000','$5,000']},
+        {l:"Maid's personal belongings",v:['$300','—','$300']},
+        {l:'Special grant upon death',v:['$1,000','$2,000','$2,000']},
+        {l:'Compassionate travel expenses',v:['—','—','$300']},
+      ],
+      p:['$401.36','$431.25','$409.73'],
+      rem:['Eligible B2 ward. No private hospital coverage.','Eligible C ward, B2 if unavailable. Pro-ration applies.','Eligible B2 ward. Pro-ration applies.'],
+      uni:['Waiver of Counter Indemnity incl.\nOption to top up for Riders\nCovers outpatient medical (illness)\n6 monthly medical visits (designated clinic)','Dedicated FA hotline: 67852552\nLetter of Guarantee for govt/restructured hospital','Covers Accidental Dental & TCM'],
+      ref:['100% refund within 90 days, no claims','% refund within 180 days, no claims','% refund within 180 days, no claims']
+    },
+    standard:{
+      plans:['Enhanced','FMI Standard','MaidPlus Classic'],
+      rows:[
+        {s:'Coverage',l:'Personal accident',v:['$60,000','$60,000','$60,000']},
+        {l:'Outpatient medical (accident)',v:['$2,000','$2,000\n+ TCM $100/accident','$2,000\n+ Accidental Dental $500\n+ TCM $100/accident\n+ Dengue Fever $100']},
+        {l:'Outpatient medical (illness)',v:['$500\n(up to $30/visit, $10 deductible)','—','—']},
+        {l:'Hospitalisation & surgery',v:['$60,000 p.a.\n90 days pre/post\nDay surgery incl.','$60,000 p.a.\n60 days pre/post\nDay surgery incl.','$80,000 p.a.\n90 days pre/post'],bold:true},
+        {l:'Copayment',v:['25% after 1st $15k','25% after 1st $15k','25% after 1st $15k']},
+        {l:'Daily hospital allowance',v:['$10/day (max 30 days)','—','—']},
+        {s:'Benefits',l:'Alternative help benefit',v:['$20/day (max 30 days)','—','$50/day (max 45 days)']},
+        {l:'Wages & levy reimbursement',v:['$30/day (max 30 days)','$20/day (max 30 days)','$30/day (max 45 days)']},
+        {l:'Termination expense',v:['$250','$500','$600']},
+        {l:'Replacement maid (medically unfit)',v:['$400','—','$500']},
+        {l:'Repatriation expense',v:['$10,000','$10,000','$15,000']},
+        {l:"Maid's liability",v:['—','$25,000','$10,000']},
+        {l:"Maid's personal belongings",v:['—','—','$300']},
+        {l:'Special grant upon death',v:['$1,000','$2,000','$3,000']},
+        {l:'Compassionate travel expenses',v:['—','—','$400']},
+      ],
+      p:['$483.47','$436.74','$450.93'],
+      rem:['Eligible B2 ward. No private hospital coverage.','Eligible C ward, B2 if unavailable. Pro-ration applies.','Eligible B2 ward. Pro-ration applies.'],
+      uni:['Waiver of Counter Indemnity incl.\nAmbulance fees $300\nOption to top up for Riders\n6 monthly medical visits (designated clinic)','Dedicated FA hotline: 67852552\nLetter of Guarantee for govt/restructured hospital','Covers Accidental Dental & TCM'],
+      ref:['100% refund within 90 days, no claims','% refund within 180 days, no claims','% refund within 180 days, no claims']
+    },
+    premium:{
+      plans:['Exclusive','FMI Enhanced','MaidPlus Premier'],
+      rows:[
+        {s:'Coverage',l:'Personal accident',v:['$60,000','$80,000','$60,000']},
+        {l:'Outpatient medical (accident)',v:['$3,000','$3,000\n+ TCM $100/accident','$3,000\n+ Accidental Dental $500\n+ TCM $100/accident\n+ Dengue Fever $100']},
+        {l:'Outpatient medical (illness)',v:['$500\n(up to $30/visit, $10 deductible)','—','—']},
+        {l:'Hospitalisation & surgery',v:['$60,000 p.a.\n90 days pre/post\nDay surgery incl.','$60,000 p.a.\n60 days pre/post\nDay surgery incl.','$120,000 p.a.\n90 days pre/post'],bold:true},
+        {l:'Copayment',v:['NIL','25% after 1st $15k','25% after 1st $15k']},
+        {l:'Daily hospital allowance',v:['$10/day (max 30 days)','—','—']},
+        {s:'Benefits',l:'Alternative help benefit',v:['$20/day (max 30 days)','—','$50/day (max 60 days)']},
+        {l:'Wages & levy reimbursement',v:['$30/day (max 30 days)','$35/day (max 30 days)','$30/day (max 60 days)']},
+        {l:'Termination expense',v:['$250','$500','$600']},
+        {l:'Replacement maid',v:['$400','—','$750']},
+        {l:'Repatriation expense',v:['$10,000','$10,000','$20,000']},
+        {l:"Maid's liability",v:['—','$75,000','$20,000']},
+        {l:"Maid's personal belongings",v:['—','—','$500']},
+        {l:'Special grant upon death',v:['$1,000','$3,000','$3,000']},
+        {l:'Compassionate travel expenses',v:['—','—','$500']},
+      ],
+      p:['$558.53','$463.90','$509.68'],
+      rem:['Eligible B2 ward. No private hospital coverage.','Eligible C ward, B2 if unavailable. Pro-ration applies.','Eligible B2 ward. Pro-ration applies.'],
+      uni:['Waiver of Counter Indemnity incl.\nAmbulance fees $300\nOption to top up for Riders\n6 monthly medical visits (designated clinic)','Dedicated FA hotline: 67852552\nLetter of Guarantee for govt/restructured hospital','Covers Accidental Dental & TCM'],
+      ref:['100% refund within 90 days, no claims','% refund within 180 days, no claims','% refund within 180 days, no claims']
+    }
+  },
+  above:{
+    basic:{
+      plans:['Essential','FMI Basic','MaidPlus Standard'],
+      rows:[
+        {s:'Coverage',l:'Personal accident',v:['$60,000','$60,000','$60,000']},
+        {l:'Outpatient medical (accident)',v:['$1,000','$1,500\n+ TCM $100/accident','$1,000\n+ Accidental Dental $500\n+ TCM $100/accident\n+ Dengue Fever $100']},
+        {l:'Hospitalisation & surgery',v:['$60,000 p.a.\n90 days pre/post\nDay surgery incl.','$60,000 p.a.\n60 days pre/post\nDay surgery incl.','$60,000 p.a.\n90 days pre/post\n(excl. day surgery)'],bold:true},
+        {l:'Copayment',v:['25% after 1st $15k','25% after 1st $15k','25% after 1st $15k']},
+        {s:'Benefits',l:'Alternative help benefit',v:['$20/day (max 30 days)','—','$50/day (max 30 days)']},
+        {l:'Wages & levy reimbursement',v:['$30/day (max 30 days)','NIL','$30/day (max 30 days)']},
+        {l:'Termination expense',v:['—','NIL','$300']},
+        {l:'Replacement maid (medically unfit)',v:['$300','—','$500']},
+        {l:'Repatriation expense',v:['$10,000','$10,000','$10,000']},
+        {l:"Maid's liability",v:['$3,000','$25,000','$5,000']},
+        {l:"Maid's personal belongings",v:['$300','—','$300']},
+        {l:'Special grant upon death',v:['$1,000','$2,000','$2,000']},
+        {l:'Compassionate travel expenses',v:['—','—','$300']},
+      ],
+      p:['$1,130.81','$1,163.03','$827.09'],
+      rem:['Eligible B2 ward. No private hospital coverage.','Eligible C ward, B2 if unavailable. Pro-ration applies.','Eligible B2 ward. Pro-ration applies.\nDoes not cover pre/post day surgery.'],
+      uni:['Waiver of Counter Indemnity incl.\nOption to top up for Riders\nCovers outpatient medical (illness)\n6 monthly medical visits','Dedicated FA hotline: 67852552\nLetter of Guarantee for govt/restructured hospital','Covers Accidental Dental & TCM\n30% discount applied'],
+      ref:['100% refund within 90 days, no claims','% refund within 180 days, no claims','% refund within 180 days, no claims']
+    },
+    standard:{
+      plans:['Enhanced','FMI Standard','MaidPlus Classic'],
+      rows:[
+        {s:'Coverage',l:'Personal accident',v:['$60,000','$60,000','$60,000']},
+        {l:'Outpatient medical (accident)',v:['$2,000','$2,000\n+ TCM $100/accident','$2,000\n+ Accidental Dental $500\n+ TCM $100/accident\n+ Dengue Fever $100']},
+        {l:'Outpatient medical (illness)',v:['$500\n(up to $30/visit, $10 deductible)','—','—']},
+        {l:'Hospitalisation & surgery',v:['$60,000 p.a.\n90 days pre/post\nDay surgery incl.','$60,000 p.a.\n60 days pre/post\nDay surgery incl.','$80,000 p.a.\n90 days pre/post\n(excl. day surgery)'],bold:true},
+        {l:'Copayment',v:['25% after 1st $15k','25% after 1st $15k','25% after 1st $15k']},
+        {l:'Daily hospital allowance',v:['$10/day (max 30 days)','—','—']},
+        {s:'Benefits',l:'Alternative help benefit',v:['$20/day (max 30 days)','—','$50/day (max 45 days)']},
+        {l:'Wages & levy reimbursement',v:['$30/day (max 30 days)','$20/day (max 30 days)','$30/day (max 45 days)']},
+        {l:'Termination expense',v:['$250','$150','$600']},
+        {l:'Replacement maid (medically unfit)',v:['$400','—','$500']},
+        {l:'Repatriation expense',v:['$10,000','$10,000','$15,000']},
+        {l:"Maid's liability",v:['—','$25,000','$10,000']},
+        {l:"Maid's personal belongings",v:['—','—','$300']},
+        {l:'Special grant upon death',v:['$1,000','$2,000','$3,000']},
+        {l:'Compassionate travel expenses',v:['—','—','$400']},
+      ],
+      p:['$939.87','$1,219.71','$905.68'],
+      rem:['Eligible B2 ward. No private hospital coverage.','Eligible C ward, B2 if unavailable. Pro-ration applies.','Eligible B2 ward. Pro-ration applies.\nDoes not cover pre/post day surgery.'],
+      uni:['Waiver of Counter Indemnity incl.\nAmbulance fees $300\nOption to top up for Riders\n6 monthly medical visits','Dedicated FA hotline: 67852552\nLetter of Guarantee for govt/restructured hospital','Covers Accidental Dental & TCM\n30% discount applied'],
+      ref:['100% refund within 90 days, no claims','% refund within 180 days, no claims','% refund within 180 days, no claims']
+    },
+    premium:{
+      plans:['Exclusive','FMI Enhanced','MaidPlus Premier'],
+      rows:[
+        {s:'Coverage',l:'Personal accident',v:['$60,000','$80,000','$60,000']},
+        {l:'Outpatient medical (accident)',v:['$3,000','$3,000\n+ TCM $100/accident','$3,000\n+ Accidental Dental $500\n+ TCM $100/accident\n+ Dengue Fever $100']},
+        {l:'Outpatient medical (illness)',v:['$500\n(up to $30/visit, $10 deductible)','—','—']},
+        {l:'Hospitalisation & surgery',v:['$60,000 p.a.\n90 days pre/post\nDay surgery incl.','$60,000 p.a.\n60 days pre/post\nDay surgery incl.','$120,000 p.a.\n90 days pre/post\n(excl. day surgery)'],bold:true},
+        {l:'Copayment',v:['NIL','25% after 1st $15k','25% after 1st $15k']},
+        {l:'Daily hospital allowance',v:['$10/day (max 30 days)','—','—']},
+        {s:'Benefits',l:'Alternative help benefit',v:['$20/day (max 30 days)','—','$50/day (max 60 days)']},
+        {l:'Wages & levy reimbursement',v:['$30/day (max 30 days)','$35/day (max 30 days)','$30/day (max 60 days)']},
+        {l:'Termination expense',v:['$250','$500','$600']},
+        {l:'Replacement maid',v:['$400','—','$750']},
+        {l:'Repatriation expense',v:['$10,000','$10,000','$20,000']},
+        {l:"Maid's liability",v:['—','$75,000','$20,000']},
+        {l:"Maid's personal belongings",v:['—','—','$500']},
+        {l:'Special grant upon death',v:['$1,000','$3,000','$3,000']},
+        {l:'Compassionate travel expenses',v:['—','—','$500']},
+      ],
+      p:['$1,068.61','$1,284.02','$1,018.61'],
+      rem:['Eligible B2 ward. No private hospital coverage.','Eligible C ward, B2 if unavailable. Pro-ration applies.','Eligible B2 ward. Pro-ration applies.\nDoes not cover pre/post day surgery.'],
+      uni:['Waiver of Counter Indemnity incl.\nAmbulance fees $300\nOption to top up for Riders\n6 monthly medical visits','Dedicated FA hotline: 67852552\nLetter of Guarantee for govt/restructured hospital','Covers Accidental Dental & TCM\n30% discount applied'],
+      ref:['100% refund within 90 days, no claims','% refund within 180 days, no claims','% refund within 180 days, no claims']
+    }
+  }
+};
+
+const promos={
+  fwd:{c:'fwd',n:'FWD Insurance',
+    below:'Up to 35% off with promo code (e.g. MAID15)',above:'Up to 35% off with promo code (e.g. MAID15)',
+    eb:'Current code valid 11–17 May 2026 · New codes weekly · verify at fwd.com.sg',
+    ea:'Current code valid 11–17 May 2026 · New codes weekly · verify at fwd.com.sg',urgent:false},
+  inc:{c:'inc',n:'Income Insurance',
+    below:'Up to 30% off · Age-tiered: 30% (≤35yo) / 16–20% (36–50yo)',
+    above:'Up to 20% off · Age-tiered for above 50 · verify at income.com.sg',
+    eb:'⚠ Flash sale ends today 14 May 2026 · Check income.com.sg for next promo',
+    ea:'⚠ Flash sale ends today 14 May 2026 · Check income.com.sg for next promo',urgent:true},
+  msig:{c:'msig',n:'MSIG Insurance',
+    below:'30% off all MaidPlus plans',above:'30% off all MaidPlus plans',
+    eb:'Promotion ends 31 May 2026',ea:'Promotion ends 31 May 2026',urgent:false}
+};
+
+let age='below',tier='basic';
+
+function setAge(a){
+  age=a;
+  document.querySelectorAll('.age-btn').forEach((b,i)=>b.classList.toggle('active',i===(a==='below'?0:1)));
+  document.getElementById('info-text').textContent=a==='below'
+    ?'Premiums based on 26-month policy · Includes $5,000 security bond · GST included'
+    :'Premiums based on 26-month policy · Includes $5,000 security bond · GST included · Helper aged 51–60';
+  render();
+}
+function setTier(t){
+  tier=t;
+  document.querySelectorAll('.tier-btn').forEach((b,i)=>b.classList.toggle('active',['basic','standard','premium','summary'][i]===t));
+  render();
+}
+function nl(s){return s.replace(/\n/g,'<br>')}
+function isNil(v){return v==='—'||v==='NIL'}
+
+function renderPromos(){
+  const a=age;
+  return '<div class="promo-grid">'+Object.values(promos).map(p=>{
+    const desc=a==='below'?p.below:p.above;
+    const exp=a==='below'?p.eb:p.ea;
+    return `<div class="promo-card promo-${p.c}">
+      <div class="promo-insurer">${p.n}</div>
+      <div class="promo-desc">${desc}</div>
+      <div class="promo-expiry${p.urgent?' expiry-urgent':''}">
+        ${p.urgent?'⚠':'🕐'} ${exp}
+      </div>
+    </div>`;
+  }).join('')+'</div>';
+}
+
+function renderTable(){
+  const d=D[age][tier];
+  let html='<div class="table-wrap"><table><thead><tr><th>Benefit</th>';
+  html+=`<th class="th-fwd">FWD<span class="plan-sub">${d.plans[0]}</span></th>`;
+  html+=`<th class="th-inc">Income<span class="plan-sub">${d.plans[1]}</span></th>`;
+  html+=`<th class="th-msig">MSIG<span class="plan-sub">${d.plans[2]}</span></th>`;
+  html+='</tr></thead><tbody>';
+  let lastS='';
+  d.rows.forEach(r=>{
+    if(r.s&&r.s!==lastS){
+      html+=`<tr class="section-divider"><td colspan="4">${r.s}</td></tr>`;lastS=r.s;
+    }
+    html+=`<tr${r.bold?' class="bold-row"':''}><td>${r.l}</td>`;
+    r.v.forEach(v=>html+=`<td${isNil(v)?' class="nil"':''}>${nl(v)}</td>`);
+    html+='</tr>';
+  });
+  html+='<tr class="price-row"><td>Premium (26 mths incl. $5k bond &amp; GST)</td>';
+  d.p.forEach(p=>html+=`<td>${p}</td>`);
+  html+='</tr></tbody></table></div>';
+  return html;
+}
+
+function renderRemarks(){
+  const d=D[age][tier];
+  let html='<div class="remarks-wrap"><table><thead><tr><th>Remarks</th>';
+  ['FWD','Income','MSIG'].forEach(n=>html+=`<th>${n}</th>`);
+  html+='</tr></thead><tbody>';
+  [['Hospital ward eligibility',d.rem],['Unique features',d.uni],['Refund mechanism',d.ref]].forEach(([label,vals])=>{
+    html+=`<tr><td><strong>${label}</strong></td>`;
+    vals.forEach(v=>html+=`<td>${nl(v)}</td>`);
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  return html;
+}
+
+function renderSummary(){
+  const ag=D[age];
+  const tiers=['basic','standard','premium'];
+  const tLabels=['Basic','Standard','Premium'];
+  const coN=['FWD','Income','MSIG'];
+  const coC=['var(--fwd)','var(--inc)','var(--msig)'];
+
+  let html='<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Current Promotions — 14 May 2026</div>';
+  html+=renderPromos();
+  html+='<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Premium Overview (26 months)</div>';
+  html+='<div class="sum-premium-grid">';
+  tiers.forEach((t,ti)=>{
+    const d=ag[t];
+    html+=`<div class="sum-tier-card"><div class="sum-tier-head">${tLabels[ti]}</div>`;
+    d.p.forEach((p,i)=>html+=`<div class="sum-tier-row"><span style="color:${coC[i]}">${coN[i]}</span><span>${p}</span></div>`);
+    html+='</div>';
+  });
+  html+='</div>';
+  html+='<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Key Highlights</div>';
+  html+='<div class="sum-insurer-cards">';
+  const pts=[
+    {n:'FWD Insurance',c:'fwd',pts:['No copayment on Premium (Exclusive) plan','Maid\'s liability ($3k) & belongings ($300) on Essential plan','Waiver of Counter Indemnity included as standard','100% refund if cancelled within 90 days, no claims','No coverage for private hospital','Rolling weekly promo codes available']},
+    {n:'Income Insurance',c:'inc',pts:['Letter of Guarantee for govt/restructured hospital','Shorter pre/post H&S coverage — 60 days only','Dedicated FA hotline: 67852552','Rider — Security Bond Protector: $52.32','Discount is age-tiered (30% ≤35yo / 16–20% 36–50yo)','Flash sale promotions run periodically']},
+    {n:'MSIG MaidPlus',c:'msig',pts:['Covers Accidental Dental & TCM','High H&S sum assured on Premier ($120k)','Alternative help & wages/levy days scale with tier','Maid\'s liability scales: $5k / $10k / $20k','Rider — Waiver of Counter Indemnity: $54.50','Above 50: does not cover pre/post day surgery']}
+  ];
+  pts.forEach(p=>{
+    html+=`<div class="sum-ins-card"><div class="sum-ins-head ${p.c}">${p.n}</div><ul class="sum-ins-body">`;
+    p.pts.forEach(pt=>html+=`<li>${pt}</li>`);
+    html+='</ul></div>';
+  });
+  html+='</div>';
+  return html;
+}
+
+function render(){
+  const area=document.getElementById('main-area');
+  if(tier==='summary'){area.innerHTML=renderSummary();return;}
+  area.innerHTML=renderPromos()+renderTable()+renderRemarks();
+}
+
+render();
+</script>
+</body>
+</html>
